@@ -34,3 +34,13 @@ class ProjectHelper():
     def open_form_add_project(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//button[@type='submit']").click()
+    def delete_project(self, id):
+        wd = self.app.wd
+        wd.get("http://localhost/mantisbt/manage_proj_page.php")
+        wd.find_element_by_xpath("//div[@id='sidebar']/ul/li[7]/a/i").click()
+        wd.find_element_by_link_text(u"Управление проектами").click()
+        # wd.find_element_by_xpath(
+        #     "//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td").click()
+        wd.find_element_by_xpath("//a[contains(@href, 'manage_proj_edit_page.php?project_id=2')]").click()
+        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
+        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
