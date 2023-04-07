@@ -12,12 +12,25 @@ class ProjectHelper():
         wd = self.app.wd
         self.open_project_page()
         self.open_form_add_project()
-        self.fill_project_form(id="project-name", name=project.name)
+        self.fill_project_form(id_el="project-name", name=project.name)
         wd.find_element_by_xpath(u"//input[@value='Добавить проект']").click()
 
-    def fill_project_form(self, id, name):
+    def delete_project(self, project):
+        self.open_project_page()
+        self.select_project_on_id(project.id)
+        self.delete_selected_project()
+
+    def delete_selected_project(self):
         wd = self.app.wd
-        self.change_field_id(id, name)
+        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
+        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
+
+    def select_project_on_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//a[contains(@href, 'manage_proj_edit_page.php?project_id=%s')]" % id).click()
+
+    def fill_project_form(self, id_el, name):
+        self.change_field_id(id_el, name)
 
     def change_field_id(self, id_name, text):
         wd = self.app.wd
@@ -34,13 +47,3 @@ class ProjectHelper():
     def open_form_add_project(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//button[@type='submit']").click()
-    def delete_project(self, id):
-        wd = self.app.wd
-        wd.get("http://localhost/mantisbt/manage_proj_page.php")
-        wd.find_element_by_xpath("//div[@id='sidebar']/ul/li[7]/a/i").click()
-        wd.find_element_by_link_text(u"Управление проектами").click()
-        # wd.find_element_by_xpath(
-        #     "//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td").click()
-        wd.find_element_by_xpath("//a[contains(@href, 'manage_proj_edit_page.php?project_id=2')]").click()
-        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
-        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
