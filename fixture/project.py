@@ -47,3 +47,14 @@ class ProjectHelper():
     def open_form_add_project(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//button[@type='submit']").click()
+
+    def get_project_list(self):
+        wd = self.app.wd
+        self.open_project_page()
+        for element in wd.find_elements_by_xpath("//table/tbody/tr"):
+            text = element.text
+            if text is None:
+                text = ''
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            self.group_cache.append(Project(name=text, id=id))
+        return list(self.group_cache)

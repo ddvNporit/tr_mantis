@@ -6,6 +6,7 @@ from model.project import Project
 
 
 def test_add_project(app):
+    old_list = app.project.get_project_list()
     testdata = Project(name=random_string(10))
     app.session.login('administrator', 'root')
     app.project.add_project(testdata)
