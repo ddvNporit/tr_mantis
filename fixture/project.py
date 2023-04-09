@@ -51,10 +51,10 @@ class ProjectHelper():
     def get_project_list(self):
         wd = self.app.wd
         self.open_project_page()
-        for element in wd.find_elements_by_xpath("//table/tbody/tr"):
-            text = element.text
-            if text is None:
-                text = ''
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            self.group_cache.append(Project(name=text, id=id))
-        return list(self.group_cache)
+        self.project_cache = []
+        for element in wd.find_elements_by_xpath(
+                "/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr"):
+            id = element.find_element_by_tag_name("a").get_attribute("href").split("=")[-1]
+            name = element.find_element_by_xpath("//td").text
+            self.project_cache.append(Project(id=id, name=name))
+        return list(self.project_cache)
