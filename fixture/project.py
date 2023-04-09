@@ -54,9 +54,14 @@ class ProjectHelper():
         self.project_cache = []
         for element in wd.find_elements_by_xpath(
                 "/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/*/tr"):
-            # "//table[@class='table table-striped table-bordered table-condensed table-hover']/*/tr"):
             if element.find_element_by_tag_name("a").get_attribute("href").split("=")[-1]!= 'DESC':
                 id = element.find_element_by_tag_name("a").get_attribute("href").split("=")[-1]
                 name = element.find_element_by_tag_name("a").text
                 self.project_cache.append(Project(id=id, name=name))
         return list(self.project_cache)
+
+    def count(self):
+        wd = self.app.wd
+        self.open_project_page()
+        return len(wd.find_elements_by_xpath(
+                "/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/*/tr"))
