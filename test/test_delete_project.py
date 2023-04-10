@@ -6,7 +6,7 @@ import random
 
 def test_add_project(app):
     app.session.login('administrator', 'root')
-    if app.project.count() < 1:
+    if app.project.count() <= 1:
         app.project.add_project(Project(name="test"))
     old_list = app.project.get_project_list()
     project = random.choice(old_list)

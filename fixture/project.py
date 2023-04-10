@@ -41,7 +41,8 @@ class ProjectHelper():
 
     def open_project_page(self):
         wd = self.app.wd
-        wd.find_element_by_xpath("//div[@id='sidebar']/ul/li[7]/a/i").click()
+        # wd.find_element_by_xpath("//div[@id='sidebar']/ul/li[7]/a/i").click()
+        wd.find_element_by_css_selector("i.fa.fa-gears.menu-icon").click()
         wd.find_element_by_link_text(u"Управление проектами").click()
 
     def open_form_add_project(self):
@@ -54,7 +55,7 @@ class ProjectHelper():
         self.project_cache = []
         for element in wd.find_elements_by_xpath(
                 "/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/*/tr"):
-            if element.find_element_by_tag_name("a").get_attribute("href").split("=")[-1]!= 'DESC':
+            if element.find_element_by_tag_name("a").get_attribute("href").split("=")[-1] != 'DESC':
                 id = element.find_element_by_tag_name("a").get_attribute("href").split("=")[-1]
                 name = element.find_element_by_tag_name("a").text
                 self.project_cache.append(Project(id=id, name=name))
@@ -64,4 +65,4 @@ class ProjectHelper():
         wd = self.app.wd
         self.open_project_page()
         return len(wd.find_elements_by_xpath(
-                "/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/*/tr"))
+            "/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/*/tr"))
