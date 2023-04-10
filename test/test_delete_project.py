@@ -5,9 +5,9 @@ from model.project import Project
 import random
 
 def test_add_project(app):
-    app.session.login('administrator', 'root')
     if app.project.count() <= 1:
-        app.project.add_project(Project(name="test"))
+        name = app.project.random_string(10)
+        app.project.add_project(Project(name=name))
     old_list = app.project.get_project_list()
     project = random.choice(old_list)
     app.project.delete_project(Project(id=project.id))

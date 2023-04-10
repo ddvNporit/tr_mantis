@@ -2,6 +2,7 @@
 # Author : "Denisov Dmitry"
 # Time : 07.04.2023
 from model.project import Project
+import string, random
 
 
 class ProjectHelper():
@@ -66,3 +67,7 @@ class ProjectHelper():
         self.open_project_page()
         return len(wd.find_elements_by_xpath(
             "/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/*/tr"))
+
+    def random_string(self, maxlen):
+        symbols = string.ascii_letters + string.digits + " " * 10
+        return "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
