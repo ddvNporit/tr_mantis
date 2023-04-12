@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from fixture.session import SessionHelper
-
-
+from fixture.james import JamesHelper
 from fixture.project import ProjectHelper
+
+
 class Application:
     def __init__(self, browser, base_url):
         if browser == "firefox":
@@ -17,6 +18,7 @@ class Application:
         self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)
         self.project = ProjectHelper(self)
+        self.james = JamesHelper(self)
         self.base_url = base_url
 
     def is_valid(self):
@@ -32,6 +34,7 @@ class Application:
 
     def destoy(self):
         self.wd.quit()
+
     def id_to_index(self, id, in_data):
         i = 0
         while i < len(in_data):
