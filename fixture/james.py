@@ -1,18 +1,22 @@
 # Name : james.py
 # Author : "Denisov Dmitry"
 # Time : 12.04.2023
-from telnetlib  import  Telnet
+from telnetlib import Telnet
+
+
 class JamesHelper:
     def __init__(self, app):
         self.app = app
+
     def ensure_user_exists(self, username, password):
-        session =JamesHelper.Session("localhost", 4555, "root", "root")
+        james_config = self.app.config['james']
+        session = JamesHelper.Session(james_config["host"], james_config["port"], james_config["username"],
+                                      james_config["password"])
         if session.is_users_registered(username):
             session.reset_password(username, password)
         else:
             session.create_user(username, password)
         session.quit()
-
 
     class Session:
         def __init__(self, host, port, username, password):
@@ -38,11 +42,9 @@ class JamesHelper:
             self.write("adduser %s %s\n" % (username, password))
             self.read_until("User %s added" % username)
 
-
         def reset_password(self, username, password):
             self.write("setpassword %s %s\n" % (username, password))
             self.read_until("Password for %s reset" % username)
 
         def quit(self):
             self.write("quit\n")
-

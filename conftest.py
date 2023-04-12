@@ -26,7 +26,7 @@ def app(request, config):
     browser = request.config.getoption("--browser")
     web_admin = load_config(request.config.getoption("--target"))["webadmin"]
     if fixture is None or not fixture.is_valid():
-        fixture = Application(browser=browser, base_url=config["web"]["baseUrl"])
+        fixture = Application(browser=browser, config=config)
         fixture.session.login(username=web_admin["username"], password=web_admin["password"])
     return fixture
 
