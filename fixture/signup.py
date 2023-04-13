@@ -2,6 +2,8 @@
 # Author : "Denisov Dmitry"
 # Time : 12.04.2023
 import re
+
+
 class SignupHelper:
     def __init__(self, app):
         self.app = app
@@ -19,8 +21,8 @@ class SignupHelper:
         wd.get(url)
 
         wd.find_element_by_name("password").send_keys(password)
-        wd.find_element_by_name("password1").send_keys(password)
-        wd.find_element_by_xpath("//input[@type='submit']").click()
+        wd.find_element_by_name("password_confirm").send_keys(password)
+        wd.find_element_by_xpath("//input[@value='Update User']").click()
 
-    def extract_confirmation_url(self,text):
-        return re.search("http://.*$", text).group(0)
+    def extract_confirmation_url(self, text):
+        return re.search("http://.*$", text, re.MULTILINE).group(0)

@@ -22,8 +22,8 @@ class MailHelper:
                     msg = email.message_from_string(msgtext)
                     if msg.get("Subject") == subject:
                         pop.dele(n + 1)
-                        pop.close()
+                        pop.quit()
                         return msg.get_payload()
-                    pop.close()
-                    time.sleep(3)
-                return None
+            pop.close()
+            time.sleep(3)
+        return None

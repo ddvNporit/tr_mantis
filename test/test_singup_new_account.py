@@ -6,6 +6,8 @@ import string, random
 
 def test_signup_account(app):
     username = random_username("user_", 10)
+
+    # username = "use2"
     password = "test"
     email = username + "@localhost"
     app.james.ensure_user_exists(username, password)

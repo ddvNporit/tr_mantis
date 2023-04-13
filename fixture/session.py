@@ -27,6 +27,8 @@ class SessionHelper():
 
     def get_logged_user(self):
         wd = self.app.wd
+        #ver2
+        # return wd.find_element_by_css_selector("td.loin-info-left span").text
         return wd.find_element_by_css_selector("td.loin-info-left span").text
 
 
@@ -34,13 +36,12 @@ class SessionHelper():
         wd = self.app.wd
         return len(wd.find_elements_by_link_text("Logout")) > 0
     def is_logged_in_as(self,username):
-        wd = self.app.wd
         return self.get_logged_user() == username
     def get_logged_user(self):
         wd = self.app.wd
         # ver 2
         # return  wd.find_element_by_xpath("/html/body/div[1]/div/div[2]/ul/li[3]/a/span").text
-        wd.find_element_by_xpath("//div/div[1]/form/b").text[1:-1]
+        return wd.find_element_by_css_selector("td.login-info-left span").text
 
     def ensure_login(self, username, password):
         wd = self.app.wd
