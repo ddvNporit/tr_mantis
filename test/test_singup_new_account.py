@@ -6,15 +6,14 @@ import string, random
 
 def test_signup_account(app):
     username = random_username("user_", 10)
-
-    # username = "use2"
     password = "test"
     email = username + "@localhost"
     app.james.ensure_user_exists(username, password)
     app.signup.new_user(username, email, password)
-    app.session.login(username, password)
-    assert app.session.is_logged_in_as(username)
-    app.session.logout()
+    # app.session.login(username, password)
+    # assert app.session.is_logged_in_as(username)
+    # app.session.logout()
+    assert app.soap.can_login(username, password)
 
 
 def random_username(prefix, maxlen):
