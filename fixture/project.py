@@ -15,11 +15,10 @@ class ProjectHelper():
         self.open_form_add_project()
         #ver2
         # self.fill_project_form(id_el="project-name", name=project.name)
+        # wd.find_element_by_xpath(u"//input[@value='Добавить проект']").click()
+
         # ver1.20.2
         self.fill_project_form(id_el="name", name=project.name)
-        # ver2
-        # wd.find_element_by_xpath(u"//input[@value='Добавить проект']").click()
-        # ver1.20.2
         wd.find_element_by_xpath(u"//input[@value='Add Project']").click()
 
     def delete_project(self, project):
@@ -43,7 +42,6 @@ class ProjectHelper():
         self.change_field_name(id_el, name)
 
 
-    #ver1.20.2
     def change_field_xpath(self, x_path, text):
         wd = self.app.wd
         if text is not None:
@@ -51,7 +49,6 @@ class ProjectHelper():
             wd.find_element_by_xpath(x_path).clear()
             wd.find_element_by_xpath(x_path).send_keys(text)
 
-    #ver2
     def change_field_id(self, id_name, text):
         wd = self.app.wd
         if text is not None:

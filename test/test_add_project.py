@@ -14,7 +14,5 @@ def test_add_project(app):
     # new_list = app.project.get_project_list()
     new_list = app.soap.get_project_list()
     old_list.append(testdata)
+
     assert sorted(old_list, key=Project.id_or_max) == sorted(new_list, key=Project.id_or_max)
-
-
-
