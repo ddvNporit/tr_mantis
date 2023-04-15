@@ -23,20 +23,20 @@ class SoapHelper:
         username = self.app.config["webadmin"]["username"]
         password = self.app.config["webadmin"]["password"]
         client = Client("http://localhost/mantisbt-1.2.20/api/soap/mantisconnect.php?wsdl", retxml=True)
+        proj_list = []
         try:
-            raw_data = client.service.mc_projects_get_user_accessible(username, password)
-            project_list = self.parse_project_list(raw_data)
-            return project_list
-        except WebFault as err:
-            print(f"Error {err}")
-            return []
+            raw = client.service.mc_projects_get_user_accessible(username, password)
+            proj_list = self.read_project_list(raw)
+            return proj_list
+        except WebFault:
+            return proj_list
 
-    def parse_project_list(self, raw_data):
+    def read_project_list(self, raw):
         project_list = []
-        parsed = xmltodict.parse(raw_data, xml_attribs=False)
+        parsed = xmltodict.parse(raw, xml_attribs=False)
         data = [dict(d) for d in parsed['SOAP-ENV:Envelope']['SOAP-ENV:Body']
         ['ns1:mc_projects_get_user_accessibleResponse']['return']['item']]
-        for p in data:
-            project = Project(id=p["id"], name=p["name"])
+        for el in data:
+            project = Project(id=el["id"], name=el["name"])
             project_list.append(project)
         return project_list
