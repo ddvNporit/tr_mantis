@@ -13,8 +13,14 @@ class ProjectHelper():
         wd = self.app.wd
         self.open_project_page()
         self.open_form_add_project()
-        self.fill_project_form(id_el="project-name", name=project.name)
-        wd.find_element_by_xpath(u"//input[@value='Добавить проект']").click()
+        #ver2
+        # self.fill_project_form(id_el="project-name", name=project.name)
+        # ver1.20.2
+        self.fill_project_form(id_el="name", name=project.name)
+        # ver2
+        # wd.find_element_by_xpath(u"//input[@value='Добавить проект']").click()
+        # ver1.20.2
+        wd.find_element_by_xpath(u"//input[@value='Add Project']").click()
 
     def delete_project(self, project):
         self.open_project_page()
@@ -31,8 +37,21 @@ class ProjectHelper():
         wd.find_element_by_xpath("//a[contains(@href, 'manage_proj_edit_page.php?project_id=%s')]" % id).click()
 
     def fill_project_form(self, id_el, name):
-        self.change_field_id(id_el, name)
+        #ver1.20.2
+        # self.change_field_xpath(id_el, name)
+        #ver2
+        self.change_field_name(id_el, name)
 
+
+    #ver1.20.2
+    def change_field_xpath(self, x_path, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_xpath(x_path).click()
+            wd.find_element_by_xpath(x_path).clear()
+            wd.find_element_by_xpath(x_path).send_keys(text)
+
+    #ver2
     def change_field_id(self, id_name, text):
         wd = self.app.wd
         if text is not None:
@@ -40,15 +59,29 @@ class ProjectHelper():
             wd.find_element_by_id(id_name).clear()
             wd.find_element_by_id(id_name).send_keys(text)
 
+    def change_field_name(self, tag_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(tag_name).click()
+            wd.find_element_by_name(tag_name).clear()
+            wd.find_element_by_name(tag_name).send_keys(text)
+
     def open_project_page(self):
         wd = self.app.wd
-        # wd.find_element_by_xpath("//div[@id='sidebar']/ul/li[7]/a/i").click()
-        wd.find_element_by_css_selector("i.fa.fa-gears.menu-icon").click()
-        wd.find_element_by_link_text(u"Управление проектами").click()
+        #ver2
+        # wd.find_element_by_css_selector("i.fa.fa-gears.menu-icon").click()
+        # wd.find_element_by_link_text(u"Управление проектами").click()
+        # ver1.20.2
+
+        wd.find_element_by_xpath('/ html / body / table[2] / tbody / tr / td[1] / a[7]').click()
+        wd.find_element_by_xpath('/html/body/div[2]/p/span[2]/a').click()
 
     def open_form_add_project(self):
         wd = self.app.wd
-        wd.find_element_by_xpath("//button[@type='submit']").click()
+        # ver2
+        # wd.find_element_by_xpath("// input[ @ value = 'Add Project']']").click()
+        # ver1.20.2
+        wd.find_element_by_xpath("//input[@value='Create New Project']").click()
 
     def get_project_list(self):
         wd = self.app.wd
