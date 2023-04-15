@@ -26,17 +26,43 @@ class SoapHelper:
         proj_list = []
         try:
             raw = client.service.mc_projects_get_user_accessible(username, password)
-            proj_list = self.read_project_list(raw)
+            parsed = xmltodict.parse(raw, xml_attribs=False)
+            count = self.count_item_return(parsed)
+            if count is None:
+                return None
+            else:
+                proj_list = self.read_project_list(parsed)
             return proj_list
         except WebFault:
             return proj_list
 
-    def read_project_list(self, raw):
+    def read_project_list(self, parsed):
         project_list = []
-        parsed = xmltodict.parse(raw, xml_attribs=False)
-        data = [dict(d) for d in parsed['SOAP-ENV:Envelope']['SOAP-ENV:Body']
-        ['ns1:mc_projects_get_user_accessibleResponse']['return']['item']]
-        for el in data:
-            project = Project(id=el["id"], name=el["name"])
+        data = []
+        t_parse = parsed['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:mc_projects_get_user_accessibleResponse']['return'][
+            'item']
+        if type(t_parse) == dict:
+            project = Project(id=parsed['SOAP-ENV:Envelope']['SOAP-ENV:Body'][
+                'ns1:mc_projects_get_user_accessibleResponse']['return']['item']['id'],
+                              name=parsed['SOAP-ENV:Envelope']['SOAP-ENV:Body'][
+                                  'ns1:mc_projects_get_user_accessibleResponse']['return']['item']['name'])
             project_list.append(project)
-        return project_list
+            return project_list
+        else:
+            data = [dict(d) for d in
+                    parsed['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:mc_projects_get_user_accessibleResponse'][
+                        'return']['item']]
+            count = len(data)
+            i = 0
+            while i < count:
+                project = Project(id=data[i]["id"], name=data[i]["name"])
+                project_list.append(project)
+                i += 1
+            return project_list
+
+    def count_item_return(self, data):
+        if data['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:mc_projects_get_user_accessibleResponse']['return'] is None:
+            return None
+        else:
+            return len(
+                data['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:mc_projects_get_user_accessibleResponse']['return'])

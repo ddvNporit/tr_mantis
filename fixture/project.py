@@ -16,7 +16,6 @@ class ProjectHelper():
         #ver2
         # self.fill_project_form(id_el="project-name", name=project.name)
         # wd.find_element_by_xpath(u"//input[@value='Добавить проект']").click()
-
         # ver1.20.2
         self.fill_project_form(id_el="name", name=project.name)
         wd.find_element_by_xpath(u"//input[@value='Add Project']").click()
@@ -28,9 +27,12 @@ class ProjectHelper():
 
     def delete_selected_project(self):
         wd = self.app.wd
-        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
-        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
-
+        #ver2
+        # wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
+        # wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
+        #ver1.20.2
+        wd.find_element_by_xpath(u"//input[@value='Delete Project']").click()
+        wd.find_element_by_xpath("//input[@value='Delete Project']").click()
     def select_project_on_id(self, id):
         wd = self.app.wd
         wd.find_element_by_xpath("//a[contains(@href, 'manage_proj_edit_page.php?project_id=%s')]" % id).click()
