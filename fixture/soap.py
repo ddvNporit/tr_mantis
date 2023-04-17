@@ -10,9 +10,10 @@ import xmltodict
 class SoapHelper:
     def __init__(self, app):
         self.app = app
-
+    def client_url(self):
+        return Client(self.app.config["web"]["baseUrl"] + "/api/soap/mantisconnect.php?wsdl", retxml=True)
     def can_login(self, username, password):
-        client = Client("http://localhost/mantisbt-1.2.20/api/soap/mantisconnect.php?wsdl")
+        client = self.client_url()
         try:
             client.service.mc_login(username, password)
             return True
@@ -22,7 +23,7 @@ class SoapHelper:
     def get_project_list(self):
         username = self.app.config["webadmin"]["username"]
         password = self.app.config["webadmin"]["password"]
-        client = Client("http://localhost/mantisbt-1.2.20/api/soap/mantisconnect.php?wsdl", retxml=True)
+        client = self.client_url()
         proj_list = []
         try:
             raw = client.service.mc_projects_get_user_accessible(username, password)
